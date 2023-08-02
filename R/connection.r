@@ -4,34 +4,36 @@
 #' @keywords internal
 #' @export
 #' @include constants.r
+#' @import DBI methods
 
-setClass(PooledConnectionClassName,
+methods::setClass("PooledConnection",
   contains = "DBIConnection",
   slots = list(
     pool = "ANY",
-    connection = "DBIConnection"
+    connection = "DBIConnection",
+    id = "numeric"
   )
 )
 
 
 methods::setMethod(
   "initialize",
-  PooledConnectionClassName,
-  function(.Object, connection, pool) { # nolint
+  "PooledConnection",
+  function(.Object, connection, id, pool) { # nolint
     .Object@pool <- pool
     .Object@connection <- connection
+    .Object@id <- id
     .Object
   }
 )
 
 
-
 #' @export
 methods::setMethod(
   "dbDisconnect",
-  PooledConnectionClassName,
+  "PooledConnection",
   function(conn) {
-    x@pool$release(x@connection)
+    conn@pool$release(conn)
     invisible(TRUE)
   })
 
@@ -39,7 +41,7 @@ methods::setMethod(
 #' @export
 methods::setMethod(
   "dbBegin",
-  PooledConnectionClassName,
+  "PooledConnection",
   function(conn) {
     DBI::dbBegin(conn@connection)
   })
@@ -47,7 +49,7 @@ methods::setMethod(
 #' @export
 methods::setMethod(
   "dbCommit",
-  PooledConnectionClassName,
+  "PooledConnection",
   function(conn) {
     DBI::dbCommit(conn@connection)
   })
@@ -55,7 +57,7 @@ methods::setMethod(
 #' @export
 methods::setMethod(
   "dbRollback",
-  PooledConnectionClassName,
+  "PooledConnection",
   function(conn) {
     DBI::dbRollback(conn@connection)
   })
@@ -63,7 +65,7 @@ methods::setMethod(
 #' @export
 methods::setMethod(
   "dbSendQuery",
-  PooledConnectionClassName,
+  "PooledConnection",
   function(conn, ...) {
     DBI::dbSendQuery(conn@connection, ...)
   })
@@ -71,7 +73,7 @@ methods::setMethod(
 #' @export
 methods::setMethod(
   "dbGetQuery",
-  c(PooledConnectionClassName, "character"),
+  c("PooledConnection", "character"),
   function(conn, statement) {
     DBI::dbGetQuery(conn@connection, statement)
   })
@@ -79,7 +81,7 @@ methods::setMethod(
 #' @export
 methods::setMethod(
   "dbExistsTable",
-  c(PooledConnectionClassName, "character"),
+  c("PooledConnection", "character"),
   function(conn, name, ...) {
     DBI::dbExistsTable(conn@connection, name)
   })
@@ -87,7 +89,7 @@ methods::setMethod(
 #' @export
 methods::setMethod(
   "dbGetInfo",
-  PooledConnectionClassName,
+  "PooledConnection",
   function(dbObj) {
     DBI::dbGetInfo(dbObj@connection)
   })
@@ -95,28 +97,28 @@ methods::setMethod(
 #' @export
 methods::setMethod(
   "dbIsValid",
-  PooledConnectionClassName, function(dbObj) {
+  "PooledConnection", function(dbObj) {
     DBI::dbIsValid(dbObj@connection)
   })
 
 #' @export
 methods::setMethod(
   "dbListFields",
-  c(PooledConnectionClassName, "Id"), function(conn, name, ...) {
+  c("PooledConnection", "Id"), function(conn, name, ...) {
     DBI::dbGetQuery(conn@connection, name, ...)
   })
 
 #' @export
 methods::setMethod(
   "dbListFields",
-  c(PooledConnectionClassName, "character"), function(conn, name, ...) {
+  c("PooledConnection", "character"), function(conn, name, ...) {
     DBI::dbGetQuery(conn@connection, name, ...)
   })
 
 #' @export
 methods::setMethod(
   "dbListObjects",
-  c(PooledConnectionClassName, "ANY"),
+  c("PooledConnection", "ANY"),
   function(conn, prefix = NULL, ...) {
     DBI::dbListObjects(conn@connection, prefix, ...)
   })
@@ -124,7 +126,7 @@ methods::setMethod(
 #' @export
 
 methods::setMethod(
-  "dbListTables", PooledConnectionClassName, function(conn) {
+  "dbListTables", "PooledConnection", function(conn) {
     DBI::dbListTables(conn@connection)
   })
 
@@ -132,7 +134,7 @@ methods::setMethod(
 
 methods::setMethod(
   "dbRemoveTable",
-  c(PooledConnectionClassName, "character"),
+  c("PooledConnection", "character"),
   function(conn, name, ..., temporary = FALSE, fail_if_missing = TRUE) {
     DBI::dbRemoveTable(conn@connection, name, ...,
                        temporary = temporary,
@@ -144,7 +146,7 @@ methods::setMethod(
 
 methods::setMethod(
   "dbUnquoteIdentifier",
-  c(PooledConnectionClassName, "SQL"), function(conn, x, ...) {
+  c("PooledConnection", "SQL"), function(conn, x, ...) {
     DBI::dbUnquoteIdentifier(conn@connectiton, x, ...)
   })
 
@@ -153,7 +155,7 @@ methods::setMethod(
 
 methods::setMethod(
   "dbQuoteIdentifier",
-  c(PooledConnectionClassName, "ANY"),
+  c("PooledConnection", "ANY"),
   function(conn, x, ...) {
     DBI::dbQuoteIdentifier(conn@connection, x, ...)
   })
@@ -162,7 +164,7 @@ methods::setMethod(
 
 methods::setMethod(
   "dbQuoteLiteral",
-  c(PooledConnectionClassName, "ANY"),
+  c("PooledConnection", "ANY"),
   function(conn, x, ...) {
     DBI::dbQuoteLiteral(conn@connection, x, ...)
   })
@@ -171,14 +173,14 @@ methods::setMethod(
 
 methods::setMethod(
   "dbExecute",
-  c(PooledConnectionClassName, "ANY"),
+  c("PooledConnection", "ANY"),
   function(conn, statement,  ...) {
     DBI::dbExecute(conn@connection, statement, ...)
   })
 
 
 #' @export
-setMethod("show", PooledConnectionClassName, function(object) {
+setMethod("show", "PooledConnection", function(object) {
   cat("<PooledConnection>  => ")
   show(object@connection)
 })
