@@ -1,6 +1,5 @@
 ConnectionPool <- R6::R6Class(
   "ConnectionPool",
-  inherit = R6P::Singleton,
   public = list(
     initialize = function(factory, min = 1, max = 5) {
       private$factory <- factory
@@ -40,3 +39,10 @@ ConnectionPool <- R6::R6Class(
 
   active = list() # active
 )
+
+
+# to silence check waring
+
+.not_used <- function() {
+  R6::R6Class("")
+}

@@ -1,12 +1,10 @@
-
 #' Pooled connection and methods.
 #'
 #' @keywords internal
 #' @export
-#' @include constants.r
 #' @import DBI methods
 
-methods::setClass("PooledConnection",
+PooledConnection <- methods::setClass("PooledConnection",
   contains = "DBIConnection",
   slots = list(
     pool = "ANY",
@@ -28,6 +26,10 @@ methods::setMethod(
 )
 
 
+
+#' Releases the connection to the pool
+#'
+#' @usage NULL
 #' @export
 methods::setMethod(
   "dbDisconnect",
@@ -38,6 +40,11 @@ methods::setMethod(
   })
 
 
+#' Delegate for dbBegin
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
 methods::setMethod(
   "dbBegin",
@@ -46,6 +53,11 @@ methods::setMethod(
     DBI::dbBegin(conn@connection)
   })
 
+#' Delegate for dbCommit
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
 methods::setMethod(
   "dbCommit",
@@ -54,6 +66,11 @@ methods::setMethod(
     DBI::dbCommit(conn@connection)
   })
 
+#' Delegate for dbRollback
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
 methods::setMethod(
   "dbRollback",
@@ -62,6 +79,14 @@ methods::setMethod(
     DBI::dbRollback(conn@connection)
   })
 
+#' Delegate for dbSendQuery
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
+#' @param conn conn PooledConnection object with DBIConnection slot
+#' @param ... generic arguments passed to DBIConnectiton
+#' @seealso DBI::dbSendQuery
 #' @export
 methods::setMethod(
   "dbSendQuery",
@@ -70,6 +95,11 @@ methods::setMethod(
     DBI::dbSendQuery(conn@connection, ...)
   })
 
+#' Delegate for dbGetQuery
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
 methods::setMethod(
   "dbGetQuery",
@@ -78,6 +108,11 @@ methods::setMethod(
     DBI::dbGetQuery(conn@connection, statement)
   })
 
+#' Delegate for dbExistsTable
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
 methods::setMethod(
   "dbExistsTable",
@@ -86,6 +121,11 @@ methods::setMethod(
     DBI::dbExistsTable(conn@connection, name)
   })
 
+#' Delegate for dbGetInfo
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
 methods::setMethod(
   "dbGetInfo",
@@ -94,6 +134,12 @@ methods::setMethod(
     DBI::dbGetInfo(dbObj@connection)
   })
 
+
+#' Delegate for dbIsValid
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
 methods::setMethod(
   "dbIsValid",
@@ -101,6 +147,11 @@ methods::setMethod(
     DBI::dbIsValid(dbObj@connection)
   })
 
+#' Delegate for dbListFields
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
 methods::setMethod(
   "dbListFields",
@@ -108,6 +159,11 @@ methods::setMethod(
     DBI::dbGetQuery(conn@connection, name, ...)
   })
 
+#' Delegate for dbListFields
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
 methods::setMethod(
   "dbListFields",
@@ -115,6 +171,11 @@ methods::setMethod(
     DBI::dbGetQuery(conn@connection, name, ...)
   })
 
+#' Delegate for dbListObjects
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
 methods::setMethod(
   "dbListObjects",
@@ -123,15 +184,24 @@ methods::setMethod(
     DBI::dbListObjects(conn@connection, prefix, ...)
   })
 
-#' @export
 
+#' Delegate for dbListTables
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
+#' @export
 methods::setMethod(
   "dbListTables", "PooledConnection", function(conn) {
     DBI::dbListTables(conn@connection)
   })
 
+#' Delegate for dbRemoveTable
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
-
 methods::setMethod(
   "dbRemoveTable",
   c("PooledConnection", "character"),
@@ -142,8 +212,12 @@ methods::setMethod(
   })
 
 
+#' Delegate for dbUnquoteIdentifier
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
-
 methods::setMethod(
   "dbUnquoteIdentifier",
   c("PooledConnection", "SQL"), function(conn, x, ...) {
@@ -151,8 +225,12 @@ methods::setMethod(
   })
 
 
+#' Delegate for dbQuoteIdentifier
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
-
 methods::setMethod(
   "dbQuoteIdentifier",
   c("PooledConnection", "ANY"),
@@ -160,8 +238,12 @@ methods::setMethod(
     DBI::dbQuoteIdentifier(conn@connection, x, ...)
   })
 
+#' Delegate for dbQuoteLiteral
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
-
 methods::setMethod(
   "dbQuoteLiteral",
   c("PooledConnection", "ANY"),
@@ -169,8 +251,12 @@ methods::setMethod(
     DBI::dbQuoteLiteral(conn@connection, x, ...)
   })
 
+#' Delegate for dbExecute
+#'
+#' Calls the underlaying methtod on the DBIConnection object
+#'
+#' @usage NULL
 #' @export
-
 methods::setMethod(
   "dbExecute",
   c("PooledConnection", "ANY"),
@@ -179,6 +265,9 @@ methods::setMethod(
   })
 
 
+#' prints to stdout the repr for PooledConnecttion
+#'
+#' @usage NULL
 #' @export
 setMethod("show", "PooledConnection", function(object) {
   cat("<PooledConnection>  => ")

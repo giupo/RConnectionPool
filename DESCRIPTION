@@ -1,9 +1,8 @@
 Package: RConnectionPool
 Title: DBI Connection Pool
 Version: 0.0.2
-Authors@R: 
-    person("Giuseppe", "Acito", , "giuseppe.acito@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0001-9696-6798"))
+Author: giuseppe.acito@gmail.com <giuseppe.acito@gmail.com>
+Maintainer: giuseppe.acito@gmail.com <giuseppe.acito@gmail.com>
 Description: This package provides a Connection Pool class for DBI connections.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -12,11 +11,11 @@ RoxygenNote: 7.2.3
 Imports: 
     DBI,
     R6,
-    R6P
+    methods
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    RSQLite
 Config/testthat/edition: 3
 Collate: 
     'class.r'
-    'constants.r'
     'connection.r'

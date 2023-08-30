@@ -3,6 +3,7 @@
 \docType{class}
 \name{PooledConnection-class}
 \alias{PooledConnection-class}
+\alias{PooledConnection}
 \title{Pooled connection and methods.}
 \description{
 Pooled connection and methods.
