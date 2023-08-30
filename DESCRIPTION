@@ -1,6 +1,6 @@
 Package: RConnectionPool
 Title: DBI Connection Pool
-Version: 0.0.2
+Version: 0.0.3
 Author: giuseppe.acito@gmail.com <giuseppe.acito@gmail.com>
 Maintainer: giuseppe.acito@gmail.com <giuseppe.acito@gmail.com>
 Description: This package provides a Connection Pool class for DBI connections.
