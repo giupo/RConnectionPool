@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+v0.0.6 (2023-09-01)
+-------------------
+- Pkg: usr: adds some docs and ignores languages for Github. [Giuseppe
+  Acito]
+
+
 v0.0.5 (2023-08-30)
 -------------------
 - Pkg: dev: fixes siglist args check fail on dbSendQuery. [Giuseppe
